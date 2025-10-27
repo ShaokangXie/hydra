@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+option go_package = "github.com/hyperledger-labs/hydra/protobufs";
+
+
+package protobufs;
+
+import "request.proto";
+
+message DummyOrdererMsg {
+    int32 sn = 1;
+    Batch batch = 2;
+}

@@ -1,0 +1,14 @@
+# Ignore tools
+/bin
+
+# Ignore coverprofiles
+*.coverprofile
+*.tmp
+.idea
+
+deployment-data
+
+protobufs/*.pb.go
+*.pb.go
+
+experiment-output

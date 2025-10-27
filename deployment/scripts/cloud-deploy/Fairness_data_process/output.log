@@ -1,0 +1,23 @@
+---------------------------------------
+/opt/gopath/src/github.com/hyperledger-labs/hydra/deployment/deployment-data/iss-log//remote-0011/experiment-output/0000
+batch length is 1544
+N: 10942
+n: 1499
+C: 0.0006758543105984021
+============================
+Propose-2f+1Commit: 680.0663538873995
+Propose-EnoughHtn: nan
+Commit-Deliver: 72241.26688170241
+Propose-Deliver: 72921.33323558982
+============================
+/opt/gopath/src/github.com/hyperledger-labs/hydra/deployment/deployment-data/iss-log//remote-0011/experiment-output/0001
+batch length is 1540
+N: 10943
+n: 1488
+C: 0.0006399204625068529
+============================
+Propose-2f+1Commit: 698.6034946236559
+Propose-EnoughHtn: nan
+Commit-Deliver: 72423.67179939516
+Propose-Deliver: 73122.27529401882
+============================

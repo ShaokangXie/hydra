@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+option go_package = "github.com/hyperledger-labs/hydra/protobufs";
+
+
+package protobufs;
+
+service TestService {
+    rpc Test(stream TestReq) returns(stream TestResp);
+}
+
+message TestReq {
+    int32 sn = 1;
+    bytes payload = 2;
+}
+
+message TestResp {
+    int32 sn = 1;
+    bytes payload = 2;
+}
