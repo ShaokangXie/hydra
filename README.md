@@ -1,6 +1,7 @@
 # HYDRA
 
 This is a modular framework for implementing, deploying and testing a distributed ordering service.
+
 Hydra is a Multi-BFT protocol without global ordering.
 
 
@@ -52,6 +53,6 @@ Compile and install the go code by running `go install ./...` from the project r
 
 
 ## Deployment & Permformance Metrics
-Detailed instructions can be found  [here](https://github.com/hyperledger-labs/hydra/tree/research-iss/deployment).
+Detailed instructions can be found  [here](https://github.com/ShaokangXie/hydra/tree/main/deployment).
 
 
