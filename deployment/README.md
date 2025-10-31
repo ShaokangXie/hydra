@@ -1,22 +1,22 @@
-# Deploying ISS
+# Deploying HYDRA
 
-This document first describes the scripts that facilitate a deployment on the IBM cloud.
+This document first describes the scripts that facilitate a deployment on the AWS cloud.
 
 Next, it describes how to run experiments:
-* on IBM cloud
+* on AWS cloud
 * locally
 
 Finally, it describes how to export plots from the experimental results.
 
 **All the following commands should be run with `hydra/deployment` as working directory.**
-## IBM cloud setup
+## AWS cloud setup
 
-Scripts to install and setup IBM Cloud CLI are under `scripts/setup` directory: 
+Scripts to install and setup AWS Cloud CLI are under `scripts/setup` directory: 
 
 ### Installation
 Run `./scripts/setup/install.sh` 
 
-Installs the required packages and the IBM Cloud CLI tools.<br/>
+Installs the required packages and the AWS Cloud CLI tools.<br/>
 Needs to be run only once on a machine.<br/>
 Only works with Ubuntu Linux.<br/>
 
@@ -30,15 +30,15 @@ New local installation steps:
 ### Initialization
 
 Run `./scripts/setup/init.sh`
-Initializes the environment for the deployment scripts to be used by logging into to the IBM Cloud.<br/>
+Initializes the environment for the deployment scripts to be used by logging into to the AWS Cloud.<br/>
 Needs to be run once at the start of the session.<br/>
-The script expects an IBM Cloud API key file named `ibmcloud-api-key`.<br/>
+The script expects an AWS Cloud API key file named `AWScloud-api-key`.<br/>
 If such key does not exists, the script gives instructions on how to get and register one.<br/>
-The script also creates a public - private ssh key pair named `ibmcloud-ssh-key` and `ibmcloud-ssh-key.pub` which will be used for the remote deployment.
-The ssh public key should be uploaded to IBM cloud so that it is an authorized key for each generated virtual machine.
+The script also creates a public - private ssh key pair named `AWScloud-ssh-key` and `AWScloud-ssh-key.pub` which will be used for the remote deployment.
+The ssh public key should be uploaded to AWS cloud so that it is an authorized key for each generated virtual machine.
 
 
-## Automated ISS Deployment
+## Automated HYDRA Deployment
 In a nutshell, to run a set of experiments one has to perform 2 steps:
 1. Edit the configuration generation script to describe all desired experiments.
 2. Run the deployment script `deploy.sh` with the correct arguments
@@ -46,10 +46,10 @@ In a nutshell, to run a set of experiments one has to perform 2 steps:
 ### deploy.sh
 
 Script used to deploy and run experiments.<br/>
-Creates a new deployment directory under `deployment-data` containing the configuration for one or more experiments and runs the experiments on IBM cloud.<br/>
+Creates a new deployment directory under `deployment-data` containing the configuration for one or more experiments and runs the experiments on AWS cloud.<br/>
 In detail:
-* It sets up a new deployment of virtual machines on IBM cloud, or uses an existing IBM cloud deployment, or builds the source code locally (see details below).
-* For an IBM cloud deployment:
+* It sets up a new deployment of virtual machines on AWS cloud, or uses an existing AWS cloud deployment, or builds the source code locally (see details below).
+* For an AWS cloud deployment:
     * The deployment consists of a master machine and a set of peer (protocol nodes) and client machines.
     * The number, locations and system requirements of the virtual machines is defined in a configuration generation script which is provided as an argument.
 * It runs a set of experiments according to the configuration generation script.
@@ -70,8 +70,8 @@ Usage:
 
 
 **deployment-type:**
-1. `cloud`: creates new cloud instances in IBM Cloud for master and slave and deploys, if not init only deployment, the experiments. 
-2. `remote path-to-cloud-instance-info`:  deploys the experiment configurations on existing IBM Cloud instances specified in a `cloud-instance-info` file. Such a file is generated for each new cloud deployment and can be found under the corresponding deployment directory (e.g., `deployment-data/cloud-0000/cloud-instance-info`)
+1. `cloud`: creates new cloud instances in AWS Cloud for master and slave and deploys, if not init only deployment, the experiments. 
+2. `remote path-to-cloud-instance-info`:  deploys the experiment configurations on existing AWS Cloud instances specified in a `cloud-instance-info` file. Such a file is generated for each new cloud deployment and can be found under the corresponding deployment directory (e.g., `deployment-data/cloud-0000/cloud-instance-info`)
 3. `local`: builds and runs the experiment locally
 
 **deployment-configurations:**
@@ -95,7 +95,7 @@ Usage:
 ./deploy.sh local new scripts/experiment-configuration/generate-local-config.sh
 ```
 
-### Monitoring the IBM cloud deployment
+### Monitoring the AWS cloud deployment
 The `deploy.sh` script may seem to hang for a while. However running and analyzing all the experiment takes time.<br/>
 Meanwhile, you can monitor their progress by looking into the master logs:
 
@@ -104,12 +104,12 @@ You can look at the logs of the commands the master is running in `master-log.lo
 You can monitor the experiments that are being analyzed in `current-deployment-data/continuous-analysis.log`.
 
 
-### Cancelling the IBM cloud deployment
+### Cancelling the AWS cloud deployment
 After completing all the experiments, the remote machines can be easily cancelled by running:<br/>
 `scripts/cancel-cloud-intances.sh  tag`
 
 The `tag` here can take the following values:
-* `__all__`: Destroys **all** the virtual machines on IBM cloud. **Potentially also machines running other experiments!!!**.
+* `__all__`: Destroys **all** the virtual machines on AWS cloud. **Potentially also machines running other experiments!!!**.
 * `peer`: Destroys all machines with the tag *peer*.
 * `clients1, clients16, or clients32`: Destroys all client machines with the corresponding tag. Client tags are defined in the experiment configuration file.
 * ` path-to-cloud-instance-info`: Destroys all machines listed in the corresponding `cloud-instance-info` file.
