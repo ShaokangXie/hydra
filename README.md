@@ -1,30 +1,6 @@
-# Insanely Scalable State-Machine Replication (ISS)
+# HYDRA
 
 This is a modular framework for implementing, deploying and testing a distributed ordering service.
-The main task of such a service is maintaining a totally ordered _Log_ of client _Requests_.
-This implementation uses multiple instances of an ordering protocol and multiplexes their outputs into the final _Log_.
-The ordering protocol instances running on each peer are orchestrated by a _Manager_ module that decides which instance
-is responsible for which part of the _Log_, when to execute a checkpoint protocol and which client requests are to be
-ordered by which ordering instance. The decisions of the _Manager_ must be consistent across all peers.
-
-The _Log_ is a sequence of _Entries_. Each _Entry_ has a _sequence number_ (_SN_) defining its position in the _Log_,
-and contains a _Batch_ of _Requests_.
-The _Log_ is logically partitioned into _Segments_ - parts of the _Log_ attributed to a single instance of an ordering
-protocol. It is the _Manager_'s task to create these _Segments_ and to instantiate the ordering protocol for each
-created _Segment_.
-
-The set of all possible client _Requests_ is partitioned (based on their hashes) into subsets called _Buckets_.
-The manager assigns a _Bucket_ to each _Segment_ it creates. The ordering protocol instance ordering that _Segment_
-only creates batches of _Requests_ using the assigned _Bucket_. It is the _Manager_'s task to create _Segments_ and
-assign _Buckets_ in a way ensuring that no two _Segments_ that are being ordered concurrently are assigned the same
-_Bucket_. This is required to prevent request duplication.
-
-The _Manager_ observes the _Log_ and creates new _Segments_ as the _Log_ fills up.
-When the _Manager_ creates a new _Segment_, it triggers the _Orderer_ that orders the _Segment_.
-Ordering a _Segment_ means committing new _Entries_ with the _SNs_ of that _Segment_.
-Periodically, the _Manager_ triggers the _Checkpointer_ to create checkpoints of the _Log_.
-The _Manager_ observes the created checkpoints and issues new _Segments_ as the checkpoints advance, respecting the
-_watermark window_.
 
 
 ## Installation
